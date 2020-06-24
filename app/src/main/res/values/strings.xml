@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">CarPlayer</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="audio_system">Audio output</string>
+    <string name="android_audio">Android audio</string>
+    <string name="usb_direct">USB direct output</string>
+</resources>

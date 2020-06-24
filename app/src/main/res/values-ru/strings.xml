@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CarPlayer</string>
+    <string name="audio_system" translatable="false">Вывод звука</string>
+    <string name="android_audio">Аудиосистема Андроид</string>
+    <string name="usb_direct">Прямой вывод на USB</string>
+</resources>

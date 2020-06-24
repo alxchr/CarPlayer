@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:keepScreenOn="true"
+
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/controls"
+        android:orientation="horizontal"
+        android:weightSum="16"
+
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+<!--
+        <ImageButton
+            android:id="@+id/vol_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_weight="0"
+            android:onClick="onClick"
+            android:src="@mipmap/icons8_low_volume_96" />
+
+        <ImageButton
+            android:id="@+id/vol_mute"
+            android:visibility="gone"
+            android:layout_weight="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:src="@mipmap/icons8_mute_96" />
+
+        <ImageButton
+            android:id="@+id/vol_up"
+            android:visibility="gone"
+            android:layout_weight="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:src="@mipmap/icons8_audio_96" />
+-->
+        <ImageButton
+            android:id="@+id/rewind"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:src="@drawable/ic_skip_previous_black_48dp" />
+
+        <ImageButton
+            android:id="@+id/play_pause"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:src="@drawable/ic_play_arrow_black_48dp" />
+
+        <ImageButton
+            android:id="@+id/forward"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:src="@drawable/ic_skip_next_black_48dp" />
+<!--
+        <ImageButton
+            android:id="@+id/shuffle"
+            android:visibility="gone"
+            android:layout_weight="0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:src="@mipmap/icons8_shuffle_96"/>
+-->
+        <ImageButton
+            android:src="@drawable/music_folder_48px"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/folder"
+            android:onClick="onClick"/>
+
+        <ImageButton
+            android:id="@+id/settings"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:src="@drawable/settings_48px" />
+        <TextView
+            android:layout_weight="11"
+            android:id="@+id/tv_playing_track"
+            android:text="@string/app_name"
+            android:textSize="24sp"
+            android:layout_width="0sp"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fragment_placeholder" />
+
+</LinearLayout>
