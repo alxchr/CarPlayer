@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -30,7 +31,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         System.loadLibrary("native-lib");
     }
     final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
-    final int MY_PERMISSIONS_REQUEST_USB_HOST = 2;
     final int SHOW_PLAYLIST = 0;
     final int SHOW_FILES = 1;
     final int SHOW_SETTINGS = 2;
@@ -99,7 +99,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     startIntent.putExtra("command", "pause");
                     playPause.setImageDrawable(getResources().getDrawable(R.drawable.ic_play_arrow_black_48dp));
                     nTrack = 0;
-                    startService(startIntent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(startIntent);
+                    } else startService(startIntent);
                 }
                 showFragment = SHOW_FILES;
                 break;
@@ -109,7 +111,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "Forward");
                 startIntent.putExtra("command", "forward");
                 playPause.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_black_48dp));
-                startService(startIntent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(startIntent);
+                } else startService(startIntent);
                 break;
 /*
             case R.id.shuffle:
@@ -133,7 +137,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ed.putString(spFolder, rootPlayList).apply();
                     newPlayList = false;
                     playing = true;
-                    startService(startIntent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(startIntent);
+                    } else startService(startIntent);
                 } else {
                     if (playing) {
                         startIntent.putExtra("command", "pause");
@@ -142,7 +148,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         startIntent.putExtra("command", "play");
                         playing = true;
                     }
-                    startService(startIntent);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        startForegroundService(startIntent);
+                    } else startService(startIntent);
                 }
                 if (playing) {
                     Log.d(TAG, "Play");
@@ -158,7 +166,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d(TAG, "Rewind");
                 playPause.setImageDrawable(getResources().getDrawable(R.drawable.ic_pause_black_48dp));
                 startIntent.putExtra("command", "rewind");
-                startService(startIntent);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(startIntent);
+                } else startService(startIntent);
                 break;
 
             case R.id.settings:
@@ -239,7 +249,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startIntent.putExtra("playlist", playListArray);
             startIntent.putExtra("track_num", nTrack);
             startIntent.putExtra("command", "init");
-            startService(startIntent);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(startIntent);
+            } else startService(startIntent);
         }
 
         if (directMode) {

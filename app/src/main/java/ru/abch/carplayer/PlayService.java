@@ -1,12 +1,21 @@
 package ru.abch.carplayer;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.IBinder;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.io.File;
+
+import static android.support.v4.app.NotificationCompat.PRIORITY_MIN;
 
 public class PlayService extends Service {
     static final String TAG = "PlayService";
@@ -18,6 +27,7 @@ public class PlayService extends Service {
     AFListener afListenerSound;
     EofHandler eofHandler;
     private MainActivity.JNIListener nlistener;
+    private static final int ID_SERVICE = 102;
     public PlayService() {
     }
 
@@ -27,9 +37,30 @@ public class PlayService extends Service {
         Log.d(TAG, "onBind");
         return null;
     }
+    @RequiresApi(Build.VERSION_CODES.O)
+    private String createNotificationChannel(NotificationManager notificationManager){
+        String channelId = "PlayService_channelid";
+        String channelName = "Play Service";
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
+        // omitted the LED color
+        channel.setImportance(NotificationManager.IMPORTANCE_NONE);
+        channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        notificationManager.createNotificationChannel(channel);
+        return channelId;
+    }
     public void onCreate() {
         super.onCreate();
         Log.d(TAG, "onCreate");
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String channelId = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? createNotificationChannel(notificationManager) : "";
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, channelId);
+        Notification notification = notificationBuilder.setOngoing(true)
+                .setSmallIcon(R.mipmap.icons8_play_48)
+                .setPriority(PRIORITY_MIN)
+                .setCategory(NotificationCompat.CATEGORY_SERVICE)
+                .build();
+
+        startForeground(ID_SERVICE, notification);
         if (MainActivity.audioManager != null) {
             afListenerSound = new AFListener("Sound");
             MainActivity.audioManager.requestAudioFocus(afListenerSound, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
