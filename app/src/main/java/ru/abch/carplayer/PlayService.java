@@ -63,7 +63,7 @@ public class PlayService extends Service {
         startForeground(ID_SERVICE, notification);
         if (MainActivity.audioManager != null) {
             afListenerSound = new AFListener("Sound");
-            MainActivity.audioManager.requestAudioFocus(afListenerSound, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+//            MainActivity.audioManager.requestAudioFocus(afListenerSound, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
         }
         /*
         String samplerateString = null, buffersizeString = null;
@@ -112,6 +112,7 @@ public class PlayService extends Service {
             playing = false;
         }
         if (cmd.equals("new_play")) {
+            MainActivity.audioManager.requestAudioFocus(afListenerSound, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
             if (playing) TogglePlayback();
             nTrack = intent.getIntExtra("track_num", 0);
             folder = intent.getStringExtra("folder");
@@ -127,6 +128,7 @@ public class PlayService extends Service {
             nTrack++;
         }
         if (cmd.equals("play_track") && !(playList == null)) {
+            MainActivity.audioManager.requestAudioFocus(afListenerSound, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
             if (playing) TogglePlayback();
             nTrack = intent.getIntExtra("track_num", 0);
             folder = intent.getStringExtra("folder");
@@ -142,10 +144,12 @@ public class PlayService extends Service {
         }
         if (cmd.equals("play") && ! playing) {
             playing = true;
+            MainActivity.audioManager.requestAudioFocus(afListenerSound, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
             TogglePlayback();
         }
         if (cmd.equals("pause") && playing) {
             playing = false;
+            MainActivity.audioManager.abandonAudioFocus(afListenerSound);
             TogglePlayback();
         }
         if (cmd.equals("rewind")) {
@@ -177,6 +181,7 @@ public class PlayService extends Service {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
         MainActivity.ndismissListener();
+        MainActivity.audioManager.abandonAudioFocus(afListenerSound);
         Cleanup();
     }
     public static void playNextFile(){
