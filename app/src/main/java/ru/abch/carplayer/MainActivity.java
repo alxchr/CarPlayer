@@ -286,6 +286,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onBackPressed() {
         switch (showFragment) {
             case SHOW_PLAYLIST:
+                if (playing) {
+                    Intent startMain = new Intent(Intent.ACTION_MAIN);
+                    startMain.addCategory(Intent.CATEGORY_HOME);
+                    startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(startMain);
+                } else
                 super.onBackPressed();
                 break;
             case SHOW_FILES:
